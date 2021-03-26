@@ -19,6 +19,27 @@ const schema = Joi.object({
   }),
 });
 
+ruta.get("/", verificarToken, (req, res) => {
+  if(req.usuario.rol == 2)
+  {
+    return res.status(401).json({ error: 'Consulta No autizado' });
+  }
+  
+  const limit  = parseInt(req.query.limit) || 10;
+  const page = parseInt(req.query.page) || 1;
+
+  let resultado = listarusuariosActivos(limit, page);
+  resultado
+    .then((usuarios) => {
+      res.json(usuarios);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
 ruta.post("/", (req, res) => {
   let body = req.body;
   Usuario.findOne({ email: body.email }, (err, user) => {
@@ -63,6 +84,12 @@ crearUsuario = async (body) => {
     rol: body.hasOwnProperty("rol") ? body.rol : 2,
   });
   return await usuario.save();
+};
+
+
+listarusuariosActivos = async (limit, page) => {
+  let usuarios = await Usuario.paginate( {estado:true},{select: 'nombre email',limit, page})
+  return usuarios;
 };
 
 desactivarUsuario = async (_id) => {
