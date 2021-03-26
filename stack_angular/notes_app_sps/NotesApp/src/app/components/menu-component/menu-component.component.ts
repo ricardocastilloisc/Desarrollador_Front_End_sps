@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./menu-component.component.css'],
 })
 export class MenuComponentComponent implements OnInit {
-
   isLoggenIn = false;
 
   isDarkTheme: boolean = false;

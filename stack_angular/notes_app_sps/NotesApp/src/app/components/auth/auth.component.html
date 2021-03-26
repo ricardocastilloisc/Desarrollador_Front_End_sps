@@ -1,54 +1,63 @@
-<h1 style="text-align: center; margin-top: 20px">Login</h1>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div class="container">
-    <mat-progress-bar
-    *ngIf="loadin"
-      class="example-margin"
-      [color]="'primary'"
-      [mode]="'indeterminate'"
-      [value]="40"
-      [bufferValue]="40"
-    >
-    </mat-progress-bar>
-    <mat-form-field>
-      <input matInput placeholder="Email" formControlName="email" />
-      <mat-hint
-        *ngIf="
-          loginForm.controls.email.touched && loginForm.controls.email.errors
-        "
-        style="color: red"
-        >Email is required</mat-hint
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="password"
-        placeholder="Password"
-        formControlName="password"
-      />
-      <mat-hint
-        *ngIf="
-          loginForm.controls.password.touched &&
-          loginForm.controls.password.errors
-        "
-        style="color: red"
-        >Password is required</mat-hint
-      >
-    </mat-form-field>
-
-    <mat-hint style="text-align: center; color: red" *ngIf="errorLogin">{{
-      errmsg
-    }}</mat-hint>
-
-    <button
-      style="margin-top: 20px"
-      mat-flat-button
-      color="primary"
-      [disabled]="!loginForm.valid"
-      type="submit"
-    >
-      Login
-    </button>
-  </div>
-</form>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="example-form">
+      <div class="container">
+        <mat-progress-bar
+          *ngIf="loadin"
+          class="example-margin"
+          [color]="'primary'"
+          [mode]="'indeterminate'"
+          [value]="40"
+          [bufferValue]="40"
+        >
+        </mat-progress-bar>
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Email" formControlName="email" />
+            <mat-hint
+              *ngIf="
+                loginForm.controls.email.touched &&
+                loginForm.controls.email.errors
+              "
+              style="color: red"
+              >Email is required</mat-hint
+            >
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+            />
+            <mat-hint
+              *ngIf="
+                loginForm.controls.password.touched &&
+                loginForm.controls.password.errors
+              "
+              style="color: red"
+              >Password is required</mat-hint
+            >
+          </mat-form-field>
+          <mat-form-field class="example-full-width" *ngIf="errorLogin">
+            <mat-hint style="text-align: center; color: red">{{
+              errmsg
+            }}</mat-hint>
+          </mat-form-field>
+        </mat-card-content>
+        <button
+          mat-stroked-button
+          color="primary"
+          class="btn-block"
+          [disabled]="!loginForm.valid"
+          type="submit"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -44,34 +44,29 @@ export class AuthComponent implements OnInit {
       };
       this.api.loginUser(user);
 
-
-      this.api.isUserLoggedIn.subscribe(
-        (val) => {
-          this.loggedIn = val;
-          console.log(this.loggedIn);
-          new Promise((resolve) => {
-            const intervalo = setInterval(() => {
-              console.log(this.loggedIn)
-              if (this.loggedIn || this.errorLogin || this.api.getMsjError()) {
-                console.log(this.loggedIn);
-                resolve('ok');
-                clearInterval(intervalo);
-              }
-            }, 100);
-          }).then(() => {
-            if(this.loggedIn || !this.errorLogin)
-            {
-              this.route.navigate(['/notes']);
+      this.api.isUserLoggedIn.subscribe((val) => {
+        this.loggedIn = val;
+        console.log(this.loggedIn);
+        new Promise((resolve) => {
+          const intervalo = setInterval(() => {
+            console.log(this.loggedIn);
+            if (this.loggedIn || this.errorLogin || this.api.getMsjError()) {
+              console.log(this.loggedIn);
+              resolve('ok');
+              clearInterval(intervalo);
             }
-            this.loadin = false;
-          });
-          if(this.api.getMsjError()){
-            this.errorLogin = true;
-            this.errmsg = this.api.getMsjError();
+          }, 100);
+        }).then(() => {
+          if (this.loggedIn || !this.errorLogin) {
+            this.route.navigate(['/notes']);
           }
-
-        },
-      );
+          this.loadin = false;
+        });
+        if (this.api.getMsjError()) {
+          this.errorLogin = true;
+          this.errmsg = this.api.getMsjError();
+        }
+      });
     } else {
       return;
     }
