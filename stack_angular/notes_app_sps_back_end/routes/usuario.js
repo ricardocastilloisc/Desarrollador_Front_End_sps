@@ -191,7 +191,7 @@ listarusuariosActivos = async (limit, page) => {
   return usuarios;
 };
 
-listarusuariosActivosAll = async (limit, page) => {
+listarusuariosActivosAll = async () => {
   let usuarios = await Usuario.find({ estado: true }).select({
     nombre: 1,
     email: 1,

@@ -8,6 +8,21 @@ const schema = Joi.object({
   titulo: Joi.string().min(3).max(30).required(),
 });
 
+ruta.get("/", verificarToken, (req, res) => {
+  const limit = parseInt(req.query.limit) || 10;
+  const page = parseInt(req.query.page) || 1;
+  let resultado = listarNotasActivos(req, limit, page);
+  resultado
+    .then((Notas) => {
+      res.json(Notas);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
 ruta.post("/", verificarToken, (req, res) => {
   let body = req.body;
   const { error, value } = schema.validate({
@@ -41,6 +56,23 @@ crearNota = async (req) => {
     NoteDate: req.body.hasOwnProperty("date") ? req.body.date : Date.now(),
   });
   return await nota.save();
+};
+
+listarNotasActivos = async (req, limit, page) => {
+  tempBody = {};
+
+  if (req.usuario.rol === 2) {
+    tempBody = { estado: true, autor: req.usuario._id };
+  } else {
+    tempBody = { estado: true };
+  }
+
+  let notas = await Nota.paginate(tempBody, {
+    limit,
+    page,
+    populate: { path: 'autor', select: 'nombre' },
+  });
+  return notas;
 };
 
 module.exports = ruta;
