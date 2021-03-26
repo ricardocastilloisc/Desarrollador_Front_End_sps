@@ -13,6 +13,11 @@ ruta.post("/", (req, res) => {
   Usuario.findOne({ email: req.body.email })
     .then((datos) => {
       if (datos) {
+        if(!datos.estado){
+            return res
+            .status(400)
+            .json({ error: "ok", msj: "Usuario Temporalmente inactivo" });
+        }
         const passwordValido = bcrypt.compareSync(
           req.body.password,
           datos.password
