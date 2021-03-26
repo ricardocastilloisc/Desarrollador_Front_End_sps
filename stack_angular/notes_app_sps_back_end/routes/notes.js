@@ -48,6 +48,35 @@ ruta.post("/", verificarToken, (req, res) => {
   }
 });
 
+ruta.delete("/:id", verificarToken, (req, res) => {
+  let resultado = desactivarNota(req.params.id);
+  resultado
+    .then((valor) => {
+      res.json({
+        Nota: valor,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+ruta.put("/activar/:id", verificarToken, (req, res) => {
+  let resultado = activarNota(req.params.id);
+  resultado
+    .then((valor) => {
+      res.json({
+        Nota: valor,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
 crearNota = async (req) => {
   let nota = new Nota({
     titulo: req.body.titulo,
@@ -70,9 +99,38 @@ listarNotasActivos = async (req, limit, page) => {
   let notas = await Nota.paginate(tempBody, {
     limit,
     page,
-    populate: { path: 'autor', select: 'nombre' },
+    populate: { path: "autor", select: "nombre" },
   });
   return notas;
+};
+
+desactivarNota = async (id) => {
+  let nota = await Nota.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        estado: false,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return nota;
+};
+activarNota = async (id) => {
+  let nota = await Nota.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        estado: true,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return nota;
 };
 
 module.exports = ruta;
