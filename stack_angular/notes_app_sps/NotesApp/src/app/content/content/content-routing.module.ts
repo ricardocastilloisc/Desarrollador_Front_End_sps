@@ -14,6 +14,13 @@ const routes: Routes = [
             (m) => m.NotesModule
           ),
       },
+      {
+        path: 'usuarios',
+        loadChildren: () =>
+          import('../../components/pages/usuarios/usuarios.module').then(
+            (m) => m.UsuariosModule
+          ),
+      },
     ],
   },
 ];
