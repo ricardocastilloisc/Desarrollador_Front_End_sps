@@ -28,16 +28,18 @@ export class AuthService {
       .subscribe(
         (checkUser: any) => {
           if (checkUser.token) {
+            localStorage.removeItem('error');
             localStorage.setItem('token', checkUser.token);
+            this.checkLogin();
           } else {
-            localStorage.setItem('error', 'true');
-            localStorage.setItem('errorM', checkUser.error);
+            localStorage.setItem('error', checkUser.error.msj);
             this.checkLogin();
           }
         },
         (error) => {
-          localStorage.setItem('error', 'true');
           this.checkLogin();
+          localStorage.setItem('error', error.error.msj);
+          return error.error
         }
       );
   }
@@ -46,6 +48,11 @@ export class AuthService {
     localStorage.removeItem('token');
     this.checkLogin();
     return;
+  }
+
+
+  getMsjError(){
+    return localStorage.getItem('error')
   }
 
   roleMatch(allowedRoles): boolean {

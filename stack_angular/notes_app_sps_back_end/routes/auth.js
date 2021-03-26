@@ -32,12 +32,7 @@ ruta.post("/", (req, res) => {
           );
           res.json(
               {
-                  usuario:{
-                      _id: datos.id,
-                      nombre: datos.nombre,
-                      email: datos.email
-                  },
-                  token
+                token
               }
           );
         } else {

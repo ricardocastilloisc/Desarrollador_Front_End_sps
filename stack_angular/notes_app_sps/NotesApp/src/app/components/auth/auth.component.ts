@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { logging } from 'protractor';
 
 @Component({
   selector: 'app-auth',
@@ -13,6 +14,8 @@ export class AuthComponent implements OnInit {
 
   loggedIn = false;
   errorLogin = false;
+
+  errmsg: string;
 
   constructor(private api: AuthService, private route: Router) {}
 
@@ -37,25 +40,36 @@ export class AuthComponent implements OnInit {
         email: this.loginForm.value.email,
       };
       this.api.loginUser(user);
-      this.api.isUserLoggedIn.subscribe((val) => {
-        this.loggedIn = val;
-        new Promise((resolve) => {
-          const intervalo = setInterval(() => {
-            if (this.loggedIn) {
-              resolve('ok');
-              clearInterval(intervalo);
+
+
+      this.api.isUserLoggedIn.subscribe(
+        (val) => {
+          this.loggedIn = val;
+          console.log(this.loggedIn);
+          new Promise((resolve) => {
+            const intervalo = setInterval(() => {
+              console.log(this.loggedIn)
+              if (this.loggedIn || this.errorLogin) {
+                console.log(this.loggedIn);
+                resolve('ok');
+                clearInterval(intervalo);
+              }
+            }, 100);
+          }).then(() => {
+            if(this.loggedIn || !this.errorLogin)
+            {
+              this.route.navigate(['/notes']);
             }
-          }, 100);
-        })
-          .then(() => {
-            this.route.navigate(['/notes']);
-          })
-          .catch((err) => {
-            this.errorLogin = err;
           });
-      });
-    }else{
-      return
+          if(this.api.getMsjError()){
+            this.errorLogin = true;
+            this.errmsg = this.api.getMsjError();
+          }
+
+        },
+      );
+    } else {
+      return;
     }
   }
 }
