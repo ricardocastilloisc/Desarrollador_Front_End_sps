@@ -18,9 +18,9 @@ ruta.post("/", (req, res) => {
           datos.password
         );
         if (passwordValido) {
-          const jwToken = jwt.sign(
+          const token = jwt.sign(
             {
-              usuario: { _id: datos.id, nombre: datos.nombre, email: datos.email },
+              usuario: { _id: datos.id, nombre: datos.nombre, email: datos.email, rol: datos.rol },
             },
             config.get('configToken.SEED'),
             { expiresIn: config.get('configToken.expiration') }
@@ -32,7 +32,7 @@ ruta.post("/", (req, res) => {
                       nombre: datos.nombre,
                       email: datos.email
                   },
-                  jwToken
+                  token
               }
           );
         } else {
