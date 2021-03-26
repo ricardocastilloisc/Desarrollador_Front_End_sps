@@ -1,6 +1,15 @@
 <h1 style="text-align: center; margin-top: 20px">Login</h1>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="container">
+    <mat-progress-bar
+    *ngIf="loadin"
+      class="example-margin"
+      [color]="'primary'"
+      [mode]="'indeterminate'"
+      [value]="40"
+      [bufferValue]="40"
+    >
+    </mat-progress-bar>
     <mat-form-field>
       <input matInput placeholder="Email" formControlName="email" />
       <mat-hint

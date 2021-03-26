@@ -15,6 +15,8 @@ export class AuthComponent implements OnInit {
   loggedIn = false;
   errorLogin = false;
 
+  loadin = false;
+
   errmsg: string;
 
   constructor(private api: AuthService, private route: Router) {}
@@ -35,6 +37,7 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     if (!this.loginForm.invalid) {
+      this.loadin = true;
       const user = {
         password: this.loginForm.value.password,
         email: this.loginForm.value.email,
@@ -60,6 +63,7 @@ export class AuthComponent implements OnInit {
             {
               this.route.navigate(['/notes']);
             }
+            this.loadin = false;
           });
           if(this.api.getMsjError()){
             this.errorLogin = true;
