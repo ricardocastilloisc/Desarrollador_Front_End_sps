@@ -24,7 +24,6 @@ ruta.get("/", verificarToken, (req, res) => {
   {
     return res.status(401).json({ error: 'Consulta No autizado' });
   }
-  
   const limit  = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
 
@@ -38,6 +37,50 @@ ruta.get("/", verificarToken, (req, res) => {
         error: err,
       });
     });
+});
+ruta.get("/all", verificarToken, (req, res) => {
+  if(req.usuario.rol == 2)
+  {
+    return res.status(401).json({ error: 'Consulta No autizado' });
+  }
+
+
+  let resultado = listarusuariosActivosAll();
+  resultado
+    .then((usuarios) => {
+      res.json(usuarios);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
+
+ruta.put("/:id", verificarToken, (req, res) => {
+  const { error, value } = schema.validate({ nombre: req.body.nombre });
+  if (!error) {
+
+    let resultado = actulizarUsuario(req.params.id, req.body);
+    
+    resultado
+      .then((valor) => {
+        res.json({
+          email: valor.email,
+          nombre: valor.nombre,
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          error: err,
+        });
+      });
+  } else {
+    res.status(400).json({
+      error: error,
+    });
+  }
 });
 
 ruta.post("/", (req, res) => {
@@ -76,6 +119,62 @@ ruta.post("/", (req, res) => {
   }
 });
 
+actulizarUsuario = async (_id, body) => {
+  let tempBody = {}
+  if(body.hasOwnProperty("password")){
+    tempBody = {
+      nombre: body.nombre,
+      password: bcrypt.hashSync(body.password, 10),
+    }
+  }else{
+    tempBody = {
+      nombre: body.nombre
+    }
+  }
+  let usuario = await Usuario.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: tempBody
+    },
+    {
+      new: true,
+    }
+  );
+  return usuario;
+};
+
+ruta.delete("/:id",  verificarToken,(req, res) => {
+  let resultado = desactivarUsuario(req.params.id);
+  resultado
+    .then((valor) => {
+      res.json({
+        email: valor.email,
+        nombre: valor.nombre,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
+ruta.put("/activar/:id",  verificarToken,(req, res) => {
+  let resultado = activarUsuario(req.params.id);
+  resultado
+    .then((valor) => {
+      res.json({
+        email: valor.email,
+        nombre: valor.nombre,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
 crearUsuario = async (body) => {
   let usuario = new Usuario({
     email: body.email,
@@ -92,12 +191,35 @@ listarusuariosActivos = async (limit, page) => {
   return usuarios;
 };
 
+listarusuariosActivosAll = async (limit, page) => {
+  let usuarios = await Usuario.find({ estado: true }).select({
+    nombre: 1,
+    email: 1,
+  });
+  return usuarios;
+};
+
 desactivarUsuario = async (_id) => {
   let usuario = await Usuario.findOneAndUpdate(
     { _id: _id },
     {
       $set: {
         estado: false,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return usuario;
+};
+
+activarUsuario = async (_id) => {
+  let usuario = await Usuario.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: {
+        estado: true,
       },
     },
     {
