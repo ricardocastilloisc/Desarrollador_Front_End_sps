@@ -1,12 +1,25 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>
-      <a routerLink="/usuarios">Usuarios</a>
-    </span>
-    <span>
-      <a routerLink="/usuarios">Notas</a>
-    </span>
-    <span class="menu-spacer"></span>
-    <a mat-button routerLink="/Login">Login</a>
+    <span routerLink="/home" class="home-link">Home</span>
+    <span class="example-spacer"></span>
+    <button mat-flat-button routerLink="users">Users</button>
+    <button
+      mat-flat-button
+      style="margin-left: 20px"
+      routerLink="create-blog-entry"
+    >
+      Create Post
+    </button>
+    <button mat-flat-button style="margin-left: 20px" routerLink="admin">
+      Admin
+    </button>
+    <mat-form-field style="margin-left: 20px" name="loginRegisterDropdown">
+      <mat-select>
+        <mat-option>Login</mat-option>
+        <mat-option>Register</mat-option>
+        <mat-option>Update Profile</mat-option>
+        <mat-option>Logout</mat-option>
+      </mat-select>
+    </mat-form-field>
   </mat-toolbar-row>
 </mat-toolbar>
