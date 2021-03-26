@@ -46,12 +46,9 @@ export class AuthComponent implements OnInit {
 
       this.api.isUserLoggedIn.subscribe((val) => {
         this.loggedIn = val;
-        console.log(this.loggedIn);
         new Promise((resolve) => {
           const intervalo = setInterval(() => {
-            console.log(this.loggedIn);
             if (this.loggedIn || this.errorLogin || this.api.getMsjError()) {
-              console.log(this.loggedIn);
               resolve('ok');
               clearInterval(intervalo);
             }

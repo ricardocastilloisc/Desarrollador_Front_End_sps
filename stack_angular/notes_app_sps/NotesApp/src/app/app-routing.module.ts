@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule),
-    canActivate: [GuestGuard]
+
   },
   {
     path: "",
@@ -16,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'notes',
-    loadChildren: () => import('./content/content/content.module').then(m => m.ContentModule)
+    loadChildren: () => import('./content/content/content.module').then(m => m.ContentModule),
+    canActivate: [AuthGuard]
   }
 ];
 

@@ -15,10 +15,15 @@ export class AuthService {
 
   constructor(private http: HttpClient, private jwtHelp: JwtHelperService) {}
   checkLogin() {
-    const token = localStorage.getItem('token');
-    if (token && !this.jwtHelp.isTokenExpired()) {
-      this.checkStatus.next(true);
-    } else {
+    try{
+      const token = this.b64_to_utf8(localStorage.getItem('token'));
+      if (token && !this.jwtHelp.isTokenExpired(token)) {
+        this.checkStatus.next(true);
+      } else {
+        this.checkStatus.next(false);
+      }
+    }catch(error)
+    {
       this.checkStatus.next(false);
     }
   }
@@ -29,7 +34,8 @@ export class AuthService {
         (checkUser: any) => {
           if (checkUser.token) {
             localStorage.removeItem('error');
-            localStorage.setItem('token', checkUser.token);
+            localStorage.setItem('token', this.utf8_to_b64(checkUser.token));
+
             this.checkLogin();
           } else {
             localStorage.setItem('error', checkUser.error.msj);
@@ -67,4 +73,16 @@ export class AuthService {
     });
     return isMatch;
   }
+
+
+
+
+  utf8_to_b64(str: string): string {
+    return window.btoa(unescape(encodeURIComponent(str)));
+  }
+
+  b64_to_utf8(str: string): string {
+    return decodeURIComponent(escape(window.atob(str)));
+  }
+
 }
