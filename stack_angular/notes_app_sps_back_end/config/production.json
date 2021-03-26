@@ -1,0 +1,10 @@
+{
+    "nombre": "Api Rest",
+    "configDB":{
+        "HOST":"mongodb+srv://root:root@cluster0.3j1gb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    },
+    "configToken":{
+        "SEED": "secret",
+        "expiration": "24h"
+    }
+}
