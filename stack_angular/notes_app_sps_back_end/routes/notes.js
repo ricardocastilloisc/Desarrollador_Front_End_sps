@@ -23,6 +23,20 @@ ruta.get("/", verificarToken, (req, res) => {
     });
 });
 
+ruta.get("/details/:id", verificarToken, (req, res) => {
+  let resultado = detalleNota(req.params.id);
+  resultado
+    .then((Notas) => {
+      res.json(Notas);
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+});
+
+
 ruta.post("/", verificarToken, (req, res) => {
   let body = req.body;
   const { error, value } = schema.validate({
@@ -47,6 +61,29 @@ ruta.post("/", verificarToken, (req, res) => {
     });
   }
 });
+
+
+ruta.put("/:id", verificarToken, (req, res) => {
+    const { error, value } = schema.validate({ titulo: req.body.titulo });
+    if (!error) {
+      let resultado = actulizarNota(req.params.id, req);
+      resultado
+        .then((valor) => {
+          res.json({
+            valor: valor,
+          });
+        })
+        .catch((err) => {
+          res.status(400).json({
+            error: err,
+          });
+        });
+    } else {
+      res.status(400).json({
+        error: error,
+      });
+    }
+  });
 
 ruta.delete("/:id", verificarToken, (req, res) => {
   let resultado = desactivarNota(req.params.id);
@@ -102,6 +139,30 @@ listarNotasActivos = async (req, limit, page) => {
     populate: { path: "autor", select: "nombre" },
   });
   return notas;
+};
+
+
+listarNotasActivos = async (req, limit, page) => {
+  tempBody = {};
+
+  if (req.usuario.rol === 2) {
+    tempBody = { estado: true, autor: req.usuario._id };
+  } else {
+    tempBody = { estado: true };
+  }
+
+  let notas = await Nota.paginate(tempBody, {
+    limit,
+    page,
+    populate: { path: "autor", select: "nombre" },
+  });
+  return notas;
+};
+
+detalleNota = async (id) => {
+    Nota.findOne({ _id: id })
+    let nota = await Nota.findOne({ _id: id })
+    return nota;
 };
 
 desactivarNota = async (id) => {
