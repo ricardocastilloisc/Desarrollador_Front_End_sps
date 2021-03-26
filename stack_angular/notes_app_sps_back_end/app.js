@@ -1,4 +1,5 @@
 const usuario = require('./routes/usuario')
+const notes = require('./routes/notes')
 const auth = require('./routes/auth')
 const express = require("express");
 const mongoose = require("mongoose");
@@ -17,6 +18,7 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use('/servicio/api_notes_app/users', usuario);
+app.use('/servicio/api_notes_app/notes', notes);
 app.use('/servicio/api_notes_app/auth', auth)
 const port = process.env.PORT || 5000;
 

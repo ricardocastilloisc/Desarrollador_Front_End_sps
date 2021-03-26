@@ -21,7 +21,7 @@ const usuariosSchema =  new mongoose.Schema(
         },
         rol: {
             type:Number,
-            default: 1
+            default: 2
         }
     }
 );
