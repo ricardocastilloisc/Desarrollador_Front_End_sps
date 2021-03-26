@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -74,8 +75,9 @@ export class AuthService {
     return isMatch;
   }
 
-
-
+  getUser(): User {
+    return localStorage.getItem("token") ? this.jwtHelp.decodeToken(this.b64_to_utf8(localStorage.getItem("token"))).usuario : null;
+  }
 
   utf8_to_b64(str: string): string {
     return window.btoa(unescape(encodeURIComponent(str)));
