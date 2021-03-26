@@ -52,7 +52,7 @@ export class AuthComponent implements OnInit {
           new Promise((resolve) => {
             const intervalo = setInterval(() => {
               console.log(this.loggedIn)
-              if (this.loggedIn || this.errorLogin) {
+              if (this.loggedIn || this.errorLogin || this.api.getMsjError()) {
                 console.log(this.loggedIn);
                 resolve('ok');
                 clearInterval(intervalo);

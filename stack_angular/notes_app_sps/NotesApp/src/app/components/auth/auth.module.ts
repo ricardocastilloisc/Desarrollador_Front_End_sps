@@ -18,8 +18,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatProgressBarModule
+    ReactiveFormsModule
   ]
 })
 export class AuthModule { }

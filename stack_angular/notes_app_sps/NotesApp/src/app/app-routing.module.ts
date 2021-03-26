@@ -16,9 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'notes',
-    loadChildren: () => import('./components/pages/notes/notes.module').then(m => m.NotesModule),
-    canActivate: [AuthGuard]
-  },
+    loadChildren: () => import('./content/content/content.module').then(m => m.ContentModule)
+  }
 ];
 
 @NgModule({
