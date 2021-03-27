@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'app-menu-component',
@@ -13,6 +14,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MenuComponentComponent implements OnInit {
   isLoggenIn = false;
+
+  user:User;
 
   isDarkTheme: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -32,6 +35,7 @@ export class MenuComponentComponent implements OnInit {
     this.apiLogin.checkLogin();
     this.apiLogin.isUserLoggedIn.subscribe((val) => {
       this.isLoggenIn = val;
+      this.user = this.apiLogin.getUser();
     });
     this.isDarkTheme = localStorage.getItem('theme') === 'Dark' ? true : false;
   }
