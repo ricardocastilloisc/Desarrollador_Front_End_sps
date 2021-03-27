@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { NotaPaginate } from '../models/Notas.paginate.interface';
 import { AuthService } from './auth.service';
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -17,5 +15,12 @@ export class NotasService {
       .get(`${this.HostUrl}/notes?limit=${limit}&page=${page}`, {
         headers: this.apiLogin.userHeaders(),
       }).toPromise() as NotaPaginate
+  };
+
+  descativarNota = async (_id:string) => {
+    return await this.httpClient
+      .delete(`${this.HostUrl}/notes/${_id}`, {
+        headers: this.apiLogin.userHeaders(),
+      }).toPromise()
   };
 }

@@ -28,14 +28,14 @@
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
-                  <button mat-menu-item>Eliminar</button>
+                  <button mat-menu-item (click)="eliminarNota(nota)">Eliminar</button>
                 </mat-menu>
               </mat-card-title>
 
               <mat-card-subtitle>{{ nota.autor.nombre }}</mat-card-subtitle>
               <mat-card-subtitle>{{ nota.NoteDate | date }}</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content style="height: 40%">
+            <mat-card-content style="height: 100px">
               <p>
                 {{
                   nota.descripcion.length > 100
