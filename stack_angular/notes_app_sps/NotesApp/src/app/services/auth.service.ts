@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.interface';
 
@@ -30,7 +30,7 @@ export class AuthService {
   }
   loginUser(user: any) {
     return this.http
-      .post(`${this.host}/servicio/api_notes_app/auth`, user)
+      .post(`${this.host}/auth`, user)
       .subscribe(
         (checkUser: any) => {
           if (checkUser.token) {
@@ -75,6 +75,9 @@ export class AuthService {
     return isMatch;
   }
 
+  getToken():string{
+    return this.b64_to_utf8(localStorage.getItem("token"))
+  }
   getUser(): User {
     return localStorage.getItem("token") ? this.jwtHelp.decodeToken(this.b64_to_utf8(localStorage.getItem("token"))).usuario : null;
   }
@@ -85,6 +88,16 @@ export class AuthService {
 
   b64_to_utf8(str: string): string {
     return decodeURIComponent(escape(window.atob(str)));
+  }
+
+
+  userHeaders()
+  {
+    return new HttpHeaders({
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Autorization': this.getToken()
+    });
   }
 
 }

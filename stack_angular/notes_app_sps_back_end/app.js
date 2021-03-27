@@ -4,6 +4,7 @@ const auth = require('./routes/auth')
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require('config')
+const cors = require('cors')
 
 mongoose
   .connect(config.get('configDB.HOST'), {
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 app.use('/servicio/api_notes_app/users', usuario);
