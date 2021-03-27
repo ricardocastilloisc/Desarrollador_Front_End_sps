@@ -44,6 +44,23 @@ export class MenuComponentComponent implements OnInit {
     localStorage.setItem('theme', this.isDarkTheme ? 'Dark' : 'Light');
   }
 
+
+  userAdmin():Boolean{
+    if(this.user){
+      if(this.user.hasOwnProperty("rol")){
+        if(this.user.rol === 1){
+          return true
+        }else{
+          false
+        }
+      }else{
+        return false
+      }
+    }else{
+      return false
+    }
+  }
+
   logout() {
     Swal.fire({
       title: '¿Vas a cerrar sesión?',
