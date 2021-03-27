@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NotasService } from '../../../services/notas.service';
 import { NotaPaginate } from '../../../models/Notas.paginate.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { nota } from 'src/app/models/nota.interface';
+import Swal from 'sweetalert2';
+import { nota } from '../../../models/nota.interface';
 
 @Component({
   selector: 'app-notes',
@@ -36,5 +37,13 @@ export class NotesComponent implements OnInit {
     await this.notas.ListadoDeNotas().then((data: NotaPaginate) => {
       this.Notas = data;
     });
+  }
+
+
+  verNota(_NOTA:nota){
+    Swal.fire({
+      title: new Date(_NOTA.NoteDate).toDateString() ,
+      text: _NOTA.descripcion
+    })
   }
 }
