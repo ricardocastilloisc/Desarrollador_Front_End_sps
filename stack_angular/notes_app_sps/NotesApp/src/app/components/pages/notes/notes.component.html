@@ -74,62 +74,78 @@
     </footer>
   </mat-tab>
   <mat-tab label="Crear nota">
+    <div
+      class="wrapper"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      style="height: 500px"
+    >
+      <mat-card class="box">
+        <mat-card-header>
+          <mat-card-title> Crear nota</mat-card-title>
+        </mat-card-header>
+        <form class="example-form" [formGroup]="NotasForm" (ngSubmit)="addNota()">
+          <div class="container">
+            <mat-card-content>
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Titulo" formControlName="titulo" />
+                <mat-hint
+                  *ngIf="
+                    NotasForm.controls.titulo.touched &&
+                    NotasForm.controls.titulo.errors
+                  "
+                  style="color: red"
+                  >Titulo es requerido</mat-hint
+                >
+              </mat-form-field>
 
-      <div class="wrapper" fxLayout="row" fxLayoutAlign="center center" style="height: 500px">
-        <mat-card class="box">
-          <mat-card-header>
-            <mat-card-title>  Crear nota</mat-card-title>
-          </mat-card-header>
-          <form class="example-form">
-            <div class="container">
-              <mat-card-content>
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Email" formControlName="email" />
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
+              <mat-form-field class="example-full-width">
+                <label> Descripcion:</label>
+                <textarea
+                  matInput
+                  formControlName="descripcion"
+                  style="width: 100%; margin-top: 5px"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="10"
+                ></textarea>
 
-                  <input
-                    matInput
-                    type="password"
-                    placeholder="Password"
-                    formControlName="password"
-                  />
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-
-                  <input
-                    matInput
-                    type="password"
-                    placeholder="Password"
-                    formControlName="password"
-                  />
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-
-                  <input
-                    matInput
-                    type="password"
-                    placeholder="Password"
-                    formControlName="password"
-                  />
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-
-                  <input
-                    matInput
-                    type="password"
-                    placeholder="Password"
-                    formControlName="password"
-                  />
-                </mat-form-field>
-              </mat-card-content>
-              <button mat-stroked-button class="btn-block" type="submit">
-                Añadir nota
-              </button>
-            </div>
-          </form>
-        </mat-card>
-      </div>
-
+                <mat-hint
+                  *ngIf="
+                    NotasForm.controls.descripcion.touched &&
+                    NotasForm.controls.descripcion.errors
+                  "
+                  style="color: red"
+                  >Descripcion requerido</mat-hint
+                >
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Fecha</mat-label>
+                <input
+                  matInput
+                  formControlName="fecha"
+                  [matDatepicker]="picker"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+              </mat-form-field>
+            </mat-card-content>
+            <button
+              mat-stroked-button
+              [style]="!NotasForm.valid ? 'background-color: #cccccc' : ''"
+              class="btn-block"
+              [disabled]="!NotasForm.valid"
+              type="submit"
+            >
+              Añadir nota
+            </button>
+          </div>
+        </form>
+      </mat-card>
+    </div>
   </mat-tab>
 </mat-tab-group>

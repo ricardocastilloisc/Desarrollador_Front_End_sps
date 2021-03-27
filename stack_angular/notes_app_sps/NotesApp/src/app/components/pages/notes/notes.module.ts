@@ -13,12 +13,18 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [NotesComponent],
   imports: [
     CommonModule,
     NotesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
     MatGridListModule,
     MatCardModule,
     MatTabsModule,
@@ -28,7 +34,8 @@ import { MatInputModule } from '@angular/material/input';
     FlexLayoutModule,
     NgxPaginationModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatNativeDateModule
   ]
 })
 export class NotesModule { }

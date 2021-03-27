@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NotasService } from '../../../services/notas.service';
 import { NotaPaginate } from '../../../models/Notas.paginate.interface';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import Swal from 'sweetalert2';
 import { nota } from '../../../models/nota.interface';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-notes',
@@ -16,6 +17,10 @@ export class NotesComponent implements OnInit {
 
   limitItems = 8;
   page = 1;
+
+  NotasForm: FormGroup;
+
+  Fecha = new Date();
 
   constructor(
     private notas: NotasService,
@@ -40,6 +45,19 @@ export class NotesComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getListaDeNotas();
+
+    this.NotasForm = new FormGroup({
+      titulo: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      descripcion: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      fecha: new FormControl(new Date()),
+      usuario: new FormControl(null),
+    });
   }
 
   async getListaDeNotas(page: number = 1) {
@@ -80,6 +98,42 @@ export class NotesComponent implements OnInit {
     });
   }
 
+  addNota() {
+    //this.NotasForm.reset();
+    if (this.NotasForm.valid) {
+      const nota: nota = {
+        titulo: this.NotasForm.value.titulo,
+        NoteDate: new Date(this.NotasForm.value.fecha),
+        descripcion: this.NotasForm.value.descripcion,
+      };
+
+      Swal.fire({
+        title: '¿Vas a añadir una nota ' + nota.titulo + ' ?',
+        text:
+          '¿Estas seguro de anadir nota con fecha ' +
+          nota.NoteDate.toDateString() +
+          ' ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+      }).then(async (result) => {
+        if (result.value) {
+          await this.notas.addNota(nota).then(() => {
+            if (this.Notas.docs.length === this.limitItems) {
+              this.page = this.page + 1;
+              this.getListaDeNotas(this.page);
+            } else {
+              this.getListaDeNotas(this.page);
+            }
+            Swal.fire('Listo!', 'Tu nota fue añadida!', 'success');
+            this.NotasForm.reset();
+            this.NotasForm.get('fecha').setValue(new Date());
+          });
+        }
+      });
+    }
+  }
   verNota(_NOTA: nota) {
     Swal.fire({
       title: new Date(_NOTA.NoteDate).toDateString(),
