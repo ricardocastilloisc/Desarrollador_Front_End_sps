@@ -1,6 +1,6 @@
 import { nota } from './nota.interface';
 export interface NotaPaginate {
-  docs:[nota]
+  docs?:[nota]
   hasNextPage: boolean;
   hasPrevPage: boolean;
   limit: number
