@@ -18,7 +18,7 @@ export class NotesComponent implements OnInit {
 
   Notas: NotaPaginate | any = [];
   colSize = 4;
-
+  selected = new FormControl(0);
   limitItems = 8;
   page = 1;
 
@@ -81,7 +81,7 @@ export class NotesComponent implements OnInit {
 
   }
 
-  selected = new FormControl(0);
+
 
   chanegeTab(index:number){
     if(this.user.rol === 1 && index ===1 && !this.editar)
@@ -116,9 +116,7 @@ export class NotesComponent implements OnInit {
     ){
       this.NotasForm.get('usuario').setValue(_nota.autor._id)
     }
-    
 
-    
   }
 
   async getListaDeNotas(page: number = 1) {
@@ -168,7 +166,7 @@ export class NotesComponent implements OnInit {
   }
 
   addNota() {
-    
+
     if (this.NotasForm.valid) {
       let nota: nota = {
         titulo: this.NotasForm.value.titulo,
