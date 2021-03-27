@@ -178,14 +178,9 @@ export class NotesComponent implements OnInit {
       if(this.user.rol === 1){
         nota.autor_id = this.NotasForm.value.usuario;
       }
-
-
       const entretexto = this.editar?'editar':'añadir'
-
       const title = '¿Vas a '+  entretexto + ' una nota ' + nota.titulo + ' ?';
       const text =  '¿Estas seguro de '+ entretexto + ' nota con fecha ' + nota.NoteDate.toDateString() +' ?'
-     console.log(title);
-     console.log(text);
       Swal.fire({
         title: title,
         text: text,
