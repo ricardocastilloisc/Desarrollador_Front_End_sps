@@ -1,4 +1,8 @@
-<mat-tab-group dynamicHeight>
+<mat-tab-group
+  dynamicHeight
+  [selectedIndex]="selected.value"
+  (selectedIndexChange)="chanegeTab($event)"
+>
   <mat-tab label="Listado de notas">
     <div class="large-box">
       <mat-grid-list [cols]="colSize" rowHeight="300px" gutterSize="1vh">
@@ -31,6 +35,7 @@
                   <button mat-menu-item (click)="eliminarNota(nota)">
                     Eliminar
                   </button>
+                  <button mat-menu-item (click)="triggerClick(nota)">Editar</button>
                 </mat-menu>
               </mat-card-title>
 
@@ -73,7 +78,7 @@
       </pagination-controls>
     </footer>
   </mat-tab>
-  <mat-tab label="Crear nota">
+  <mat-tab [label]="editar?'Editar Nota':'Crear Nota'">
     <div
       class="wrapper"
       fxLayout="row"
@@ -82,11 +87,27 @@
     >
       <mat-card class="box">
         <mat-card-header>
-          <mat-card-title> Crear nota</mat-card-title>
+          <mat-card-title>{{editar?'Editar Nota':'Crear Nota'}}</mat-card-title>
         </mat-card-header>
-        <form class="example-form" [formGroup]="NotasForm" (ngSubmit)="addNota()">
+        <form
+          class="example-form"
+          [formGroup]="NotasForm"
+          (ngSubmit)="addNota()"
+        >
           <div class="container">
             <mat-card-content>
+              <mat-form-field  class="example-full-width"  *ngIf="user.rol === 1">
+                <mat-label>Usuarios</mat-label>
+                <mat-select formControlName="usuario" >
+                  <mat-option
+                    *ngFor="let usuario of Usuarios"
+                    [value]="usuario._id"               
+                  >
+                    {{ usuario.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <mat-form-field class="example-full-width">
                 <input matInput placeholder="Titulo" formControlName="titulo" />
                 <mat-hint
@@ -141,7 +162,7 @@
               [disabled]="!NotasForm.valid"
               type="submit"
             >
-              Añadir nota
+              {{editar?'Editar':'Añadir'}} nota
             </button>
           </div>
         </form>

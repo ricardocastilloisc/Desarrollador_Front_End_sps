@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private apiLogin: AuthService){
   }
   ngOnInit(): void {
-    console.log('hola')
     this.apiLogin.checkLogin();
     this.apiLogin.isUserLoggedIn.subscribe((val) => {
       this.isLoggenIn = val;

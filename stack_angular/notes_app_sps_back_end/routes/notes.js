@@ -119,7 +119,7 @@ crearNota = async (req) => {
     titulo: req.body.titulo,
     autor: req.usuario.rol === 1 ? req.body.autor_id : req.usuario._id,
     descripcion: req.body.descripcion,
-    NoteDate: req.body.hasOwnProperty("date") ? req.body.date : Date.now(),
+    NoteDate: req.body.hasOwnProperty("NoteDate") ? req.body.NoteDate : Date.now(),
   });
   return await nota.save();
 };
@@ -185,6 +185,23 @@ activarNota = async (id) => {
     {
       $set: {
         estado: true,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return nota;
+};
+actulizarNota = async (id,req) => {
+  let nota = await Nota.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        titulo: req.body.titulo,
+        autor: req.usuario.rol === 1 ? req.body.autor_id : req.usuario._id,
+        descripcion: req.body.descripcion,
+        NoteDate: req.body.hasOwnProperty("NoteDate") ? req.body.NoteDate : Date.now(),
       },
     },
     {

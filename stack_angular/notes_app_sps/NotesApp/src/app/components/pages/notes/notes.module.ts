@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [NotesComponent],
@@ -23,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     CommonModule,
     NotesRoutingModule,
     FormsModule,
+    MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatGridListModule,
