@@ -4,6 +4,7 @@ import { NotaPaginate } from '../../../models/Notas.paginate.interface';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import Swal from 'sweetalert2';
 import { nota } from '../../../models/nota.interface';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-notes',
@@ -14,6 +15,8 @@ export class NotesComponent implements OnInit {
   Notas: NotaPaginate | any = [];
   colSize = 4;
 
+  limitItems = 8;
+  page = 1;
 
   constructor(private notas: NotasService, BreakpointObserver: BreakpointObserver)
   {
@@ -34,7 +37,11 @@ export class NotesComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.notas.ListadoDeNotas().then((data: NotaPaginate) => {
+    this.getListaDeNotas();
+  }
+
+  async getListaDeNotas(page:number=1){
+    await this.notas.ListadoDeNotas(this.limitItems,page).then((data: NotaPaginate) => {
       this.Notas = data;
     });
   }
@@ -45,5 +52,9 @@ export class NotesComponent implements OnInit {
       title: new Date(_NOTA.NoteDate).toDateString() ,
       text: _NOTA.descripcion
     })
+  }
+  pageChange(event:number){
+    this.page=event;
+    this.getListaDeNotas(this.page);
   }
 }

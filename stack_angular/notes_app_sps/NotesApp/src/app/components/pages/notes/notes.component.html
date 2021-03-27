@@ -2,14 +2,40 @@
   <mat-tab label="Listado de notas">
     <div class="large-box">
       <mat-grid-list [cols]="colSize" rowHeight="300px" gutterSize="1vh">
-        <mat-grid-tile [colspan]="1" [rowspan]="1" *ngFor="let nota of Notas.docs">
-          <mat-card style="width: 100%; height: 100% ">
+        <mat-grid-tile
+          [colspan]="1"
+          [rowspan]="1"
+          *ngFor="
+            let nota of Notas.docs
+              | paginate
+                : {
+                    itemsPerPage: limitItems,
+                    currentPage: page,
+                    totalItems: Notas.totalDocs
+                  }
+          "
+        >
+          <mat-card style="width: 100%; height: 100%">
             <mat-card-header>
-              <mat-card-title>{{ nota.titulo }} </mat-card-title>
+              <mat-card-title
+                >{{ nota.titulo }}
+
+                <button
+                  mat-icon-button
+                  class="more-button"
+                  [mat-menu-trigger-for]="menu"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Eliminar</button>
+                </mat-menu>
+              </mat-card-title>
+
               <mat-card-subtitle>{{ nota.autor.nombre }}</mat-card-subtitle>
               <mat-card-subtitle>{{ nota.NoteDate | date }}</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content style="height: 45%;">
+            <mat-card-content style="height: 40%">
               <p>
                 {{
                   nota.descripcion.length > 100
@@ -20,26 +46,32 @@
             </mat-card-content>
             <mat-card-actions>
               <button
-              mat-flat-button
-              color="primary"
-              class="btn-block"
-              (click)="verNota(nota)"
-            >
-              Ver Nota
-            </button>
+                mat-flat-button
+                color="primary"
+                class="btn-block"
+                (click)="verNota(nota)"
+              >
+                Ver Nota
+              </button>
             </mat-card-actions>
           </mat-card>
-
         </mat-grid-tile>
       </mat-grid-list>
     </div>
+    <footer style="display: flex; justify-content: center;">
+      <pagination-controls
+        (pageChange)="pageChange($event)"
+        maxSize="9"
+        autoHide="true"
+        directionLinks="true"
+        previousLabel="Previous"
+        nextLabel="Next"
+        screenReaderPaginationLabel="Pagination"
+      >
+      </pagination-controls>
+    </footer>
   </mat-tab>
   <mat-tab label="Crear nota">
-    <div class="mat-elevation-z4">
-      Large content
-    </div>
+    <div class="mat-elevation-z4">Large content</div>
   </mat-tab>
 </mat-tab-group>
-
-
-
