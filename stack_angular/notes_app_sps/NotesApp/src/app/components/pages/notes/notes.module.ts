@@ -10,7 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {NgxPaginationModule} from 'ngx-pagination';
-
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [NotesComponent],
@@ -23,7 +25,10 @@ import {NgxPaginationModule} from 'ngx-pagination';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    NgxPaginationModule
+    FlexLayoutModule,
+    NgxPaginationModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class NotesModule { }
