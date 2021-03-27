@@ -3,9 +3,9 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list >
-      <a mat-list-item routerLink="/notes">Notas</a>
-      <a mat-list-item routerLink="/notes/usuarios">Usuarios</a>
-      <a mat-list-item (click)="logout()">Cerrar la sesión </a>
+      <a mat-list-item routerLinkActive="active"  routerLink="/notes/notas">Notas</a>
+      <a mat-list-item routerLinkActive="active" routerLink="/notes/usuarios">Usuarios</a>
+      <a mat-list-item  (click)="logout()">Cerrar la sesión </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -15,7 +15,7 @@
        >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Market</span>
+      <span>Aplicación de Notas Ricardo Castillo</span>
       <span style="flex:auto;"></span>
       <mat-slide-toggle [(ngModel)]="isDarkTheme" labelPosition="before" (change)="storeThemeSelection()">
         <mat-icon>bedtime</mat-icon>

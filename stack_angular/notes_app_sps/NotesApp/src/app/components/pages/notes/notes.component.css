@@ -1,0 +1,17 @@
+.large-box {
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.mat-stroked-button {
+  border: 1px solid currentColor;
+  line-height: 54px;
+  background: #1891d5;
+  color: #fff;
+}
+
+.btn-block {
+  width: 100%;
+}

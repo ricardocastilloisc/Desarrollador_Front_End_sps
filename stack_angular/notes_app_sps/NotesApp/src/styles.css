@@ -8,3 +8,7 @@ body {
   min-height: 100vh;
   background: #e2e2e2;
 }
+
+.mat-nav-list a.active {
+  color: red;
+}

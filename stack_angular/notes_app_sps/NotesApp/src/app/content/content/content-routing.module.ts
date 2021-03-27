@@ -8,7 +8,12 @@ const routes: Routes = [
     component: ContentComponent,
     children: [
       {
-        path: '',
+        path: "",
+        redirectTo: "notas",
+        pathMatch: "full"
+      },
+      {
+        path: 'notas',
         loadChildren: () =>
           import('./../../components/pages/notes/notes.module').then(
             (m) => m.NotesModule
