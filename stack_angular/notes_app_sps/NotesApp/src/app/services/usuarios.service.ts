@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { UserPaginate } from '../models/use.paginate.interfce';
 import { AuthService } from './auth.service';
 
 
@@ -11,16 +12,13 @@ export class UsuariosService {
 
   HostUrl =  environment.url
 
-  headers = new HttpHeaders(
-    {'content-type': 'application/json',
-    'Access-Control-Allow-Origin': '*',}
-  );
-
-  constructor(private httpClient: HttpClient, private apiLogin: AuthService)
-  {
-    this.headers.set('Autorization',apiLogin.getToken())
-  }
-
-  post = async (url: string, body: any) =>
-  await this.httpClient.post(`${this.HostUrl}/${url}`, body).toPromise();
+  constructor(private httpClient: HttpClient, private apiLogin: AuthService){}
+  
+  ListadoDeUsuarios = async (limit: number = 10, page: number = 1) => {
+    return (await this.httpClient
+      .get(`${this.HostUrl}/users?limit=${limit}&page=${page}`, {
+        headers: this.apiLogin.userHeaders(),
+      })
+      .toPromise()) as UserPaginate;
+  };
 }

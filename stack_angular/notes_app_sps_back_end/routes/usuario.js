@@ -187,7 +187,7 @@ crearUsuario = async (body) => {
 
 
 listarusuariosActivos = async (limit, page) => {
-  let usuarios = await Usuario.paginate( {estado:true},{select: 'nombre email',limit, page})
+  let usuarios = await Usuario.paginate( {estado:true},{select: 'nombre email rol',limit, page})
   return usuarios;
 };
 

@@ -19,7 +19,7 @@ export class NotesComponent implements OnInit {
   Notas: NotaPaginate | any = [];
   colSize = 4;
   selected = new FormControl(0);
-  limitItems = 8;
+  limitItems = 6;
   page = 1;
 
   NotasForm: FormGroup;

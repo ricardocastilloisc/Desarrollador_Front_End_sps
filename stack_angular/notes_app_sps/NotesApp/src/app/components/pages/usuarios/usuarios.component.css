@@ -1,1 +1,19 @@
 
+.example-container {
+  width: 100%;
+  position: relative;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  background-color: #424242;
+  color: white;
+}
+
+
+
+
