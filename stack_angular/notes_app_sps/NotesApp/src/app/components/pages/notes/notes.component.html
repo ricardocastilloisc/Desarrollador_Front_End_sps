@@ -14,7 +14,7 @@
               | paginate
                 : {
                     itemsPerPage: limitItems,
-                    currentPage: page,
+                    currentPage: Notas.page,
                     totalItems: Notas.totalDocs
                   }
           "
@@ -69,7 +69,6 @@
       <pagination-controls
         (pageChange)="pageChange($event)"
         maxSize="9"
-        autoHide="true"
         directionLinks="true"
         previousLabel="Previous"
         nextLabel="Next"
@@ -101,7 +100,7 @@
                 <mat-select formControlName="usuario" >
                   <mat-option
                     *ngFor="let usuario of Usuarios"
-                    [value]="usuario._id"               
+                    [value]="usuario._id"
                   >
                     {{ usuario.nombre }}
                   </mat-option>

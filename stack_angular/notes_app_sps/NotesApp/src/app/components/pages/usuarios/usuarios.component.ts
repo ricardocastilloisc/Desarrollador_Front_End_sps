@@ -63,6 +63,7 @@ export class UsuariosComponent implements OnInit {
       .then((data: UserPaginate) => {
         this.Usuarios = data;
         this.dataSource = new MatTableDataSource(data.docs);
+        this.page = data.page;
       });
   }
 

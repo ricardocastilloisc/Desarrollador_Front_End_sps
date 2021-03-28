@@ -124,6 +124,7 @@ export class NotesComponent implements OnInit {
       .ListadoDeNotas(this.limitItems, page)
       .then((data: NotaPaginate) => {
         this.Notas = data;
+        this.page = data.page;
       });
   }
 

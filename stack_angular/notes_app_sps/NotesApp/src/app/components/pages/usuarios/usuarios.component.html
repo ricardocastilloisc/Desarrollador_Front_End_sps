@@ -64,7 +64,7 @@
               | paginate
                 : {
                     itemsPerPage: limitItems,
-                    currentPage: page,
+                    currentPage: Usuarios.page,
                     totalItems: Usuarios.totalDocs
                   }
           "
@@ -74,7 +74,6 @@
           <pagination-controls
             (pageChange)="pageChange($event)"
             maxSize="9"
-            autoHide="true"
             directionLinks="true"
             previousLabel="Previous"
             nextLabel="Next"
