@@ -191,7 +191,7 @@ export class NotesComponent implements OnInit {
           if(this.editar){
             await this.notas.updateNota(this.tempNotaID,nota).then(() => {
               this.getListaDeNotas(this.page);
-              Swal.fire('Listo!', 'Tu nota fue '+ this.editar?'editar':'añadir'+ '!', 'success');
+              Swal.fire('Listo!', 'Tu nota fue '+ this.editar?'editado':'añadido'+ '!', 'success');
               this.resetForm();
               this.chanegeTab(0);
             })
@@ -203,7 +203,7 @@ export class NotesComponent implements OnInit {
               } else {
                 this.getListaDeNotas(this.page);
               }
-              Swal.fire('Listo!', 'Tu nota fue '+ this.editar?'editar':'añadir'+ '!', 'success');
+              Swal.fire('Listo!', 'Tu nota fue '+ this.editar?'editado':'añadido'+ '!', 'success');
               this.resetForm();
             });
           }

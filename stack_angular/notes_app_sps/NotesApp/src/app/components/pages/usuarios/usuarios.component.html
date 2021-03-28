@@ -42,8 +42,10 @@
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
-                  <button mat-menu-item>Eliminar</button>
-                  <button mat-menu-item>Editar</button>
+                  <button mat-menu-item (click)="eliminarUser(element)">Eliminar</button>
+                  <button mat-menu-item (click)="triggerClick(element)">
+                    Editar
+                  </button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -96,10 +98,79 @@
             editar ? "Editar Usuario" : "Crear Usuario"
           }}</mat-card-title>
         </mat-card-header>
-        <form class="example-form">
+        <form class="example-form" [formGroup]="UsuarioForm" (ngSubmit)="addUser()">
           <div class="container">
-            <mat-card-content> </mat-card-content>
-            <button mat-stroked-button class="btn-block" type="submit">
+            <mat-card-content>
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Nombre" formControlName="nombre" />
+                <mat-hint
+                  *ngIf="
+                    UsuarioForm.controls.nombre.touched &&
+                    UsuarioForm.controls.nombre.errors
+                  "
+                  style="color: red"
+                  >Nombre es requerido</mat-hint
+                >
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Rol de usuario</mat-label>
+                <mat-select formControlName="rol">
+                  <mat-option *ngFor="let rol of roles" [value]="rol.id">
+                    {{ rol.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" formControlName="email" />
+                <mat-hint
+                  *ngIf="
+                    UsuarioForm.controls.email.touched &&
+                    UsuarioForm.controls.email.errors
+                  "
+                  style="color: red"
+                  >Email is required</mat-hint
+                >
+              </mat-form-field>
+              <mat-form-field *ngIf="!editar" class="example-full-width">
+                <mat-label>Contraseña</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  formControlName="password"
+                  #passwordField
+                />
+
+                <mat-hint *ngIf="errorPass()" style="color: red"
+                  >Contraseña es requerido</mat-hint
+                >
+
+                <button
+                  aria-label="view password"
+                  mat-icon-button
+                  type="button"
+                  (click)="
+                    passwordField.type === 'password'
+                      ? (passwordField.type = 'text')
+                      : (passwordField.type = 'password')
+                  "
+                  matSuffix
+                >
+                  <mat-icon *ngIf="passwordField.type === 'password'"
+                    >visibility</mat-icon
+                  >
+                  <mat-icon *ngIf="passwordField.type === 'text'"
+                    >visibility_off</mat-icon
+                  >
+                </button>
+              </mat-form-field>
+            </mat-card-content>
+            <button
+              mat-stroked-button
+              [style]="!UsuarioForm.valid ? 'background-color: #cccccc' : ''"
+              class="btn-block"
+              [disabled]="!UsuarioForm.valid"
+              type="submit"
+            >
               {{ editar ? "Editar" : "Añadir" }} usuario
             </button>
           </div>

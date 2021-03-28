@@ -131,9 +131,7 @@ body {
   margin: 0;
 }
 
-textarea {
-  border: 1px solid black;
-}
+
 
 .wrapper .mat-stroked-button {
   border: 1px solid currentColor;
